@@ -2,7 +2,8 @@ import os
 import json
 
 isWindos = os.name.strip() == 'nt'
-tSperator = '\\' if isWindos else '/'
+# tSperator = "\\" if isWindos else '/'
+tSperator = os.sep
 
 
 # 文件分隔符
@@ -19,8 +20,14 @@ def getDataFileDir():
 
     i = 0
     while i < (len(fileItems) - 2):
-         dirPath = dirPath + sperator() + fileItems[i]
-         i = i + 1
+        if isWindos:
+            if i == 0:
+                dirPath =fileItems[i] + sperator()
+            else:
+                dirPath = dirPath + sperator() + fileItems[i]
+        else:
+            dirPath = dirPath + sperator() + fileItems[i]
+        i = i + 1
     
     dirPath = dirPath + sperator() + "data"
 
@@ -30,6 +37,20 @@ def getDataFileDir():
 def getDataFilePathByName(fileName):
     path = getDataFileDir() + sperator() + fileName
     return path
+
+def getAccountExt():
+    configPath = getDataFilePathByName("config.json")
+    f = open(configPath, "rb")
+    fJson = json.load(f, strict=False)
+    ext = fJson['account-extention']
+    return ext
+
+def getConverExt():
+    configPath = getDataFilePathByName("config.json")
+    f = open(configPath, "rb")
+    fJson = json.load(f, strict=False)
+    ext = fJson['conver-extention']
+    return ext
 
 # 获取筛选条件，国家名
 def getContryConditionForFilt():

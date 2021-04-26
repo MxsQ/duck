@@ -13,6 +13,9 @@
         "意大利": "Italy",
         "波兰": "Poland",
         "挪威": "Norway"
-    }]
+    }],
+
+    "account-extention" : "csv",
+    "conver-extention": "csv"
 }
 
