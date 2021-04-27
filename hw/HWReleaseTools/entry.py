@@ -10,7 +10,10 @@ import utils.dataFrameFormatUtils as dfUtils
 if __name__ == '__main__':
 
     contryNameDirt = fileUtils.getContryNameTransferDirt()
-    contriesCondition = fileUtils.getContryConditionForFilt()
+    contriesFiterDirt = fileUtils.getContryConditionForFilt()
+    contriesCondition = []
+    for country in contriesFiterDirt.keys():
+        contriesCondition.append(country)
     contriesConditionInEn = fileUtils.getContryConditionEnForFit(contriesCondition, contryNameDirt)
     accountExt = fileUtils.getAccountExt()
     converExt = fileUtils.getConverExt()
@@ -54,7 +57,7 @@ if __name__ == '__main__':
     putDatas = []
     # 投放数据表索引
     putDataIndex = ['日期', '国家', '花费', '下载数', 'CPD(下载)', '展示量',
-    'CPM', '点击量', 'CPC', '点击率', '激活（华为统计)', '下载激活转化率（总计自然）',
+    'CPM', '点击量', 'CPC', '点击率', '激活（华为统计)', '下载激活转化率（总计自然）', '点击下载转化率',
     '收益', 'ROI', '变现展示量', 'ECPM', '活跃用户', '人均观看次数', '填充率', '广告请求次数', '展示率']
     regionList = accountData['国家/地区'].drop_duplicates()
     for region in regionList:
@@ -64,6 +67,10 @@ if __name__ == '__main__':
         cost = aForm['花费'].values[0]
         tRevenue = cForm['Estimated total revenue (USD)'].values[0]
         roi = round(tRevenue / cost * 100, 2)
+        naturalConversionRate = round(aForm['激活量（HMS）'].values[0] / aForm['下载量'].values[0] * 100, 2)
+        clickAndDownRate = round(aForm['下载量'].values[0] / aForm['点击量'].values[0] * 100, 2)
+        dau = contriesFiterDirt[region]
+        vpc = round(cForm['Impressions'].values[0] / dau , 2)# 人均观看
 
         # print(aForm['点击率'].values[0])
 
@@ -79,13 +86,14 @@ if __name__ == '__main__':
             aForm['点击均价'].values[0],# CPC 
             str(aForm['点击率'].values[0]), # 点击率
             aForm['激活量（HMS）'].values[0],# 激活
-            'null', # 自然转化率
+            str(naturalConversionRate) + '%',  # 自然转化率
+            str(clickAndDownRate) + '%', # 点击下载转化率
             '$' + str(tRevenue), # 收益
             str(roi) + '%', # ROI
             cForm['Impressions'].values[0], # 变现展示量
             '$' + str(cForm['RPM (USD)'].values[0]),# ECPM
-            'null', # 活跃用户
-            'null',# 人均观看次数
+            dau, # 活跃用户
+            vpc,# 人均观看次数
             cForm['Fill rate%'].values[0],# 填充率
             cForm['Ad requests'].values[0],# 广告请求次数
             cForm['Impression rate%'].values[0]# 展示率

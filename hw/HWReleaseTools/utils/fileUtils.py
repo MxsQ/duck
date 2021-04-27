@@ -38,6 +38,7 @@ def getDataFilePathByName(fileName):
     path = getDataFileDir() + sperator() + fileName
     return path
 
+# 获取账户表扩展名
 def getAccountExt():
     configPath = getDataFilePathByName("config.json")
     f = open(configPath, "rb")
@@ -45,6 +46,7 @@ def getAccountExt():
     ext = fJson['account-extention']
     return ext
 
+# 获取转换表扩展名
 def getConverExt():
     configPath = getDataFilePathByName("config.json")
     f = open(configPath, "rb")
@@ -52,13 +54,13 @@ def getConverExt():
     ext = fJson['conver-extention']
     return ext
 
-# 获取筛选条件，国家名
+# 获取筛选条件，国家
 def getContryConditionForFilt():
     configPath = getDataFilePathByName("config.json")
     f = open(configPath, "rb")
     fJson = json.load(f, strict=False)
     contries = fJson['filt-contries']
-    return contries
+    return contries[0]
 
 # 获取筛选条件，中文名
 def getContryConditionEnForFit(contryies, cn2enDirt):
