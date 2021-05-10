@@ -44,11 +44,11 @@ if __name__ == '__main__':
     if converExt == 'xlsx':
         conversionData = pd.read_excel(conversionFilePath)
     else:
-        conversionData = pd.read_csv(conversionFilePath, encoding='gbk')
+        conversionData = pd.read_csv(conversionFilePath, encoding='utf-8')
     dfUtils.removeUnuseCharaters(conversionData)
-    dfUtils.formatDate(conversionData, 'Date')
-    conversionData = conversionData[conversionData['Date'].isin(dateCondition)]
-    conversionData = conversionData[conversionData['Country/Region'].isin(contriesConditionInEn)]
+    dfUtils.formatDate(conversionData, '日期')
+    conversionData = conversionData[conversionData['日期'].isin(dateCondition)]
+    conversionData = conversionData[conversionData['国家&地区'].isin(contriesCondition)]
 
     print(conversionData[0:])
 
@@ -61,15 +61,15 @@ if __name__ == '__main__':
     regionList = accountData['国家/地区'].drop_duplicates()
     for region in regionList:
         aForm = accountData.loc[accountData['国家/地区'] == region]
-        cForm = conversionData.loc[conversionData['Country/Region'] == contryNameDirt[region]]
+        cForm = conversionData.loc[conversionData['国家&地区'] == region]
 
         cost = aForm['花费'].values[0]
-        tRevenue = cForm['Estimated total revenue (USD)'].values[0]
+        tRevenue = cForm['预计总收益(美元)'].values[0]
         roi = round(tRevenue / cost * 100, 2)
         naturalConversionRate = round(aForm['激活量（HMS）'].values[0] / aForm['下载量'].values[0] * 100, 2)
         clickAndDownRate = round(aForm['下载量'].values[0] / aForm['点击量'].values[0] * 100, 2)
         dau = contriesFiterDirt[region]
-        vpc = round(cForm['Impressions'].values[0] / dau , 2)# 人均观看
+        vpc = round(cForm['展示量'].values[0] / dau , 2)# 人均观看
 
         # print(aForm['点击率'].values[0])
 
@@ -89,13 +89,13 @@ if __name__ == '__main__':
             str(clickAndDownRate) + '%', # 点击下载转化率
             '$' + str(tRevenue), # 收益
             str(roi) + '%', # ROI
-            cForm['Impressions'].values[0], # 变现展示量
-            '$' + str(cForm['RPM (USD)'].values[0]),# ECPM
+            cForm['展示量'].values[0], # 变现展示量
+            '$' + str(cForm['预计千次展示收益(美元)'].values[0]),# ECPM
             dau, # 活跃用户
             vpc,# 人均观看次数
-            cForm['Fill rate%'].values[0],# 填充率
-            cForm['Ad requests'].values[0],# 广告请求次数
-            cForm['Impression rate%'].values[0]# 展示率
+            cForm['填充率%'].values[0],# 填充率
+            cForm['广告请求量'].values[0],# 广告请求次数
+            cForm['展示率%'].values[0]# 展示率
         ]
         # curSeries = pd.Series(data=outputData, index=putDataIndex)
         putDatas.append(outputData)
