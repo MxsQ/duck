@@ -23,16 +23,25 @@ if __name__ == '__main__':
     if accountExt == 'xlsx':
         accountData = pd.read_excel(accountFilePath)
     else:
-        accountData = pd.read_csv(accountFilePath, encoding='gbk')
+        accountData = pd.read_csv(accountFilePath, encoding='utf-8')
+    
+    accountData = accountData[~(accountData['国家/地区'].isnull())]  #删掉空行
+    accountData = accountData[(accountData['花费'].astype(int)>0)]  #删掉空花费
+
     print(accountData)
-    accountData = accountData[accountData['国家/地区'].isin(contriesCondition)]
+    if len(contriesCondition) > 0:
+        accountData = accountData[accountData['国家/地区'].isin(contriesCondition)]
+
     dfUtils.removeUnuseCharaters(accountData)
     dfUtils.formatDate(accountData, "时间")
+    
     
     dateCondition = accountData['时间'].drop_duplicates()
     dateCondition = dateCondition.sort_values(ascending=False)
     dateCondition = dateCondition[0:1]
+    
     accountData = accountData[accountData['时间'].isin(dateCondition)]
+   
     # #accountData = accountData.sort_values(axis=0, ascending=False, by=['时间'])
 
     print(accountData[0:])
@@ -45,10 +54,15 @@ if __name__ == '__main__':
         conversionData = pd.read_excel(conversionFilePath)
     else:
         conversionData = pd.read_csv(conversionFilePath, encoding='utf-8')
+    
+    conversionData = conversionData[~(conversionData['国家&地区'].isnull())]  #删掉空行
+    
     dfUtils.removeUnuseCharaters(conversionData)
     dfUtils.formatDate(conversionData, '日期')
     conversionData = conversionData[conversionData['日期'].isin(dateCondition)]
-    conversionData = conversionData[conversionData['国家&地区'].isin(contriesCondition)]
+
+    if len(contriesCondition) > 0:
+        conversionData = conversionData[conversionData['国家&地区'].isin(contriesCondition)]
 
     print(conversionData[0:])
 
@@ -59,17 +73,27 @@ if __name__ == '__main__':
     'CPM', '点击量', 'CPC', '点击率', '激活（华为统计)', '下载激活转化率（总计自然）', '点击下载转化率',
     '收益', 'ROI', '变现展示量', 'ECPM', '活跃用户', '人均观看次数', '填充率', '广告请求次数', '展示率']
     regionList = accountData['国家/地区'].drop_duplicates()
+
     for region in regionList:
         aForm = accountData.loc[accountData['国家/地区'] == region]
         cForm = conversionData.loc[conversionData['国家&地区'] == region]
-
+        if aForm.empty:
+            continue
+        if cForm.empty:
+            continue
+        print("他是")
+        print(cForm)
         cost = aForm['花费'].values[0]
         tRevenue = cForm['预计总收益(美元)'].values[0]
         roi = round(tRevenue / cost * 100, 2)
         naturalConversionRate = round(aForm['激活量（HMS）'].values[0] / aForm['下载量'].values[0] * 100, 2)
         clickAndDownRate = round(aForm['下载量'].values[0] / aForm['点击量'].values[0] * 100, 2)
-        dau = contriesFiterDirt[region]
-        vpc = round(cForm['展示量'].values[0] / dau , 2)# 人均观看
+        if len(contriesCondition) > 0:
+            dau = contriesFiterDirt[region]
+            vpc = round(cForm['展示量'].values[0] / dau, 2)  # 人均观看
+        else:
+            dau = 0
+            vpc = 0
 
         # print(aForm['点击率'].values[0])
 

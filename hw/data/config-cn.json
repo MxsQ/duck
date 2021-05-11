@@ -1,0 +1,17 @@
+{
+    "filt-contries": [{
+      
+    }],
+
+    "cn-to-en":[{
+        "德国": "Germany",
+        "法国": "France",
+        "意大利": "Italy",
+        "波兰": "Poland",
+        "挪威": "Norway"
+    }],
+
+    "account-extention" : "csv",
+    "conver-extention": "csv"
+}
+

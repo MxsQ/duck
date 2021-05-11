@@ -40,7 +40,7 @@ def getDataFilePathByName(fileName):
 
 # 获取账户表扩展名
 def getAccountExt():
-    configPath = getDataFilePathByName("config.json")
+    configPath = getDataFilePathByName("config-cn.json")
     f = open(configPath, "rb")
     fJson = json.load(f, strict=False)
     ext = fJson['account-extention']
@@ -48,7 +48,7 @@ def getAccountExt():
 
 # 获取转换表扩展名
 def getConverExt():
-    configPath = getDataFilePathByName("config.json")
+    configPath = getDataFilePathByName("config-cn.json")
     f = open(configPath, "rb")
     fJson = json.load(f, strict=False)
     ext = fJson['conver-extention']
@@ -56,7 +56,7 @@ def getConverExt():
 
 # 获取筛选条件，国家
 def getContryConditionForFilt():
-    configPath = getDataFilePathByName("config.json")
+    configPath = getDataFilePathByName("config-cn.json")
     f = open(configPath, "rb")
     fJson = json.load(f, strict=False)
     contries = fJson['filt-contries']
@@ -71,7 +71,7 @@ def getContryConditionEnForFit(contryies, cn2enDirt):
 
 # 获取中英文国家名
 def getContryNameTransferDirt():
-    configPath = getDataFilePathByName("config.json")
+    configPath = getDataFilePathByName("config-cn.json")
     f = open(configPath, "rb")
     fJson = json.load(f, strict=False)
     namesJson = fJson['cn-to-en']
