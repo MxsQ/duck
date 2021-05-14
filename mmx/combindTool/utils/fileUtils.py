@@ -64,6 +64,15 @@ def getExcel(fileNames):
         if name.__contains__('.xlsx'):
             datas.append(pd.read_excel(filePath))
         elif name.__contains__(".csv"):
-            datas.append(pd.read_csv(filePath, encoding='gbk'))
+            try:
+                datas.append(pd.read_csv(filePath, encoding='gbk'))
+            except:
+                datas.append(pd.read_csv(filePath, encoding='utf-8'))
 
     return datas
+
+# 输出excel
+def outExcel(dataFrame, fileName):
+    filePath = getWorkDirPath() + sperator() + "out" + sperator() + fileName + '.xlsx'
+    dataFrame.to_excel(filePath)
+    print('make table' + fileName + ' done!  path is ' + filePath)

@@ -8,14 +8,14 @@ import utils.dataFrameFormatUtils as dfUtils
 
 if __name__ == '__main__':
 
-    contryNameDirt = fileUtils.getContryNameTransferDirt()
-    contriesFiterDirt = fileUtils.getContryConditionForFilt()
+    contryNameDirt = fileUtils.getContryNameTransferDirt("config.json")
+    contriesFiterDirt = fileUtils.getContryConditionForFilt("config.json")
     contriesCondition = []
     for country in contriesFiterDirt.keys():
         contriesCondition.append(country)
     contriesConditionInEn = fileUtils.getContryConditionEnForFit(contriesCondition, contryNameDirt)
-    accountExt = fileUtils.getAccountExt()
-    converExt = fileUtils.getConverExt()
+    accountExt = fileUtils.getAccountExt("config.json")
+    converExt = fileUtils.getConverExt("config.json")
 
     # 账户报表
     accountFilePath = fileUtils.getDataFilePathByName('accountStatements.' + accountExt)
@@ -23,12 +23,19 @@ if __name__ == '__main__':
     if accountExt == 'xlsx':
         accountData = pd.read_excel(accountFilePath)
     else:
-        accountData = pd.read_csv(accountFilePath, encoding='gbk')
-    print(accountData)
-    accountData = accountData[accountData['国家/地区'].isin(contriesCondition)]
+        try:
+            accountData = pd.read_csv(accountFilePath, encoding='utf-8')
+        except Exception:
+            accountData = pd.read_csv(accountFilePath, encoding='gkb')
+
     dfUtils.removeUnuseCharaters(accountData)
-    dfUtils.formatDate(accountData, "时间")
+    accountData = accountData[accountData['国家/地区'].isin(contriesCondition)]
     
+    print(accountData[0:])
+    
+    
+    dfUtils.formatDate(accountData, "时间")
+   
     dateCondition = accountData['时间'].drop_duplicates()
     dateCondition = dateCondition.sort_values(ascending=False)
     dateCondition = dateCondition[0:1]
@@ -36,7 +43,6 @@ if __name__ == '__main__':
     # #accountData = accountData.sort_values(axis=0, ascending=False, by=['时间'])
 
     print(accountData[0:])
-    print()
 
     # 数据报表
     conversionFilePath = fileUtils.getDataFilePathByName('conversionStatements.' + converExt)
@@ -44,11 +50,17 @@ if __name__ == '__main__':
     if converExt == 'xlsx':
         conversionData = pd.read_excel(conversionFilePath)
     else:
-        conversionData = pd.read_csv(conversionFilePath, encoding='gbk')
+        try:
+            conversionData = pd.read_csv(conversionFilePath, encoding='gbk')
+        except Exception:
+            conversionData = pd.read_csv(conversionFilePath, encoding='utf-8')
     dfUtils.removeUnuseCharaters(conversionData)
+
     dfUtils.formatDate(conversionData, 'Date')
+   
     conversionData = conversionData[conversionData['Date'].isin(dateCondition)]
     conversionData = conversionData[conversionData['Country/Region'].isin(contriesConditionInEn)]
+    
 
     print(conversionData[0:])
 

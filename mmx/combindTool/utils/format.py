@@ -12,6 +12,7 @@ def removeUnuseCharaters(dataFrame):
     column = dataFrame.columns
     for columnName in column:
         dataFrame[columnName] = dataFrame[columnName].map(lambda s: pressCharater(s))
+    return dataFrame
 
 
 # 所有排序的key
@@ -150,7 +151,9 @@ def filterByFunction(datas, combindRule, filterRule):
         return fr
     
     realConbindRuld = list(map(lambda rule: fullRull(rule), realConbindRuld))
-    # realConbindRuld.map(lambda rule: fullRull(rule))
+   
+
+   
     print(realConbindRuld)
     
     # changeLen = len(changePosition)

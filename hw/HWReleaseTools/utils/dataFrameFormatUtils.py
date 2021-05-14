@@ -6,6 +6,7 @@ def removeUnuseCharaters(dataFrame):
         if isinstance(word, str):
             return word.strip()
         else:
+            # print(word)
             return word
 
     column = dataFrame.columns
@@ -15,10 +16,12 @@ def removeUnuseCharaters(dataFrame):
 # 格式化时间
 def formatDate(dataFrame, column):
     def format(date):
+        # print(date)
         # d = date
         # if isinstance(date, int):
         d = str(date)
         d = d.replace('-', '')
+        # d = d.replace(old, new)
         year = d[0:4]
         mouth = fileUtils.sperator() + d[4:6]
         day = fileUtils.sperator() + d[6:8]

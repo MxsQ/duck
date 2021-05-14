@@ -1,0 +1,91 @@
+{
+    "excel":[
+        "accountStatements.csv",
+        "conversionStatements.csv"
+    ],
+
+    "newExcelName": "hhhhh",
+    
+    "combindByRule": [
+        "德国:Germany",
+        "法国:France",
+        "意大利:Italy",
+        "波兰:Poland",
+        "挪威:Norway"
+    ],
+
+    "filter":[
+        {
+            "column": "国家/地区:Country/Region",
+            "func": "include",
+            "extra": [
+                "德国",
+                "法国",
+                "意大利",
+                "波兰",
+                "挪威"
+            ],
+            "reflect":[
+                "德国:Germany",
+                "法国:France",
+                "意大利:Italy",
+                "波兰:Poland",
+                "挪威:Norway"
+            ]
+        },
+
+        {
+            "column": "时间",
+            "func": "exclude",
+            "extra": [
+                "2021-04-26"
+            ]
+        },
+
+        {
+            "column": "时间:Date",
+            "func": "head",
+            "assending": false,
+            "extra" :[
+                3
+            ],
+            "ignoreChatWhenFilt":[
+                "-"
+            ]
+        },
+
+        {
+            "column": "下载成本",
+            "func": "moreThan",
+            "extra" :[
+                0.1
+            ]
+        },
+
+        {
+            "column": "下载成本",
+            "func": "lessThan",
+            "extra" :[
+                0.23
+            ]
+        }
+    ],
+
+    "renameColumn":[{
+        "conversionStatements":[
+            "Date:DD",
+            "Ad requests:A",
+            "Viewable impressions:B99"
+        ]
+    }],
+
+    "realColumn":[{
+        "这国家": "国家/地区",
+        "广告请求次数": "Ad requests",
+        "下载成本": "下载成本",
+        "日期": "DD",
+        "请求": "A",
+        "展示": "Viewable impressions",
+        "测试值": ": (((A - B99   )) * 100):"
+    }]
+}

@@ -3,3 +3,6 @@
 /data/conversionStatements.xlsx
 hw/data/*.csv
 hw/data/*.xlsx
+mmx/data/*.csv
+mmx/data/*.xlsx
+mmx/data/out/*

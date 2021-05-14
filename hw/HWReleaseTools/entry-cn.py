@@ -8,14 +8,14 @@ import utils.dataFrameFormatUtils as dfUtils
 
 if __name__ == '__main__':
 
-    contryNameDirt = fileUtils.getContryNameTransferDirt()
-    contriesFiterDirt = fileUtils.getContryConditionForFilt()
+    contryNameDirt = fileUtils.getContryNameTransferDirt("config-cn.json")
+    contriesFiterDirt = fileUtils.getContryConditionForFilt("config-cn.json")
     contriesCondition = []
     for country in contriesFiterDirt.keys():
         contriesCondition.append(country)
     contriesConditionInEn = fileUtils.getContryConditionEnForFit(contriesCondition, contryNameDirt)
-    accountExt = fileUtils.getAccountExt()
-    converExt = fileUtils.getConverExt()
+    accountExt = fileUtils.getAccountExt("config-cn.json")
+    converExt = fileUtils.getConverExt("config-cn.json")
 
     # 账户报表
     accountFilePath = fileUtils.getDataFilePathByName('accountStatements.' + accountExt)
@@ -23,7 +23,10 @@ if __name__ == '__main__':
     if accountExt == 'xlsx':
         accountData = pd.read_excel(accountFilePath)
     else:
-        accountData = pd.read_csv(accountFilePath, encoding='utf-8')
+        try:
+            accountData = pd.read_csv(accountFilePath, encoding='utf-8')
+        except Exception:
+            accountData = pd.read_csv(accountFilePath, encoding='gkb')
     
     accountData = accountData[~(accountData['国家/地区'].isnull())]  #删掉空行
     accountData = accountData[(accountData['花费'].astype(int)>0)]  #删掉空花费
@@ -53,7 +56,10 @@ if __name__ == '__main__':
     if converExt == 'xlsx':
         conversionData = pd.read_excel(conversionFilePath)
     else:
-        conversionData = pd.read_csv(conversionFilePath, encoding='utf-8')
+        try:
+            conversionData = pd.read_csv(conversionFilePath, encoding='gbk')
+        except Exception:
+            conversionData = pd.read_csv(conversionFilePath, encoding='utf-8')
     
     conversionData = conversionData[~(conversionData['国家&地区'].isnull())]  #删掉空行
     
