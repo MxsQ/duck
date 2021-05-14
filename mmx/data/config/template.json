@@ -6,14 +6,6 @@
 
     "newExcelName": "hhhhh",
     
-    "combindByRule": [
-        "德国:Germany",
-        "法国:France",
-        "意大利:Italy",
-        "波兰:Poland",
-        "挪威:Norway"
-    ],
-
     "filter":[
         {
             "column": "国家/地区:Country/Region",
@@ -86,6 +78,7 @@
         "日期": "DD",
         "请求": "A",
         "展示": "Viewable impressions",
-        "测试值": ": (((A - B99   )) * 100):"
+        "测试值": "$: (((A - B99   )) * 100):",
+        "另一个测试值":"$: A + B99 :"
     }]
 }

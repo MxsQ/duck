@@ -32,6 +32,7 @@ class CombindConfig():
             if len(slot) > 2:
             # 说明是算式
                 self.formulaDirt[key] = self.caculator.media2pre(self.caculator.transfroFormula(slot[1]))
+                self.columnSymbloDirt[key] = slot[0]
 
 
     # 重命名的column
@@ -100,7 +101,7 @@ class CombindConfig():
                 factors.append(f)
             index = index + 1
         
-        return self.caculator.workByPre(factors)  
+        return self.columnSymbloDirt[outCoulnName] + str(self.caculator.workByPre(factors))  
                 
 
     def __init__(self, configFile):
@@ -133,6 +134,8 @@ class CombindConfig():
         print()
         # 新表中哪些栏来自于计算
         self.formulaDirt = {}
+        # 新表的单元格的符号，如果来自于公式的话
+        self.columnSymbloDirt = {}
         # 处理运算的辅助器
         self.caculator = Caculator()
         # 记录新表中哪些栏来源于计算
