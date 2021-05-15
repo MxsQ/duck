@@ -616,7 +616,7 @@ Prism.languages.yaml={scalar:{pattern:/([\-:]\s*(?:![^\s]+)?[ \t]*[|>])[ \t]*(?:
 <pre><code class="language-text">&quot;realColumn&quot;:[{
     &quot;标题1&quot;: &quot;值来自于要合成的表的标题&quot;,
     &quot;标题2&quot;: &quot;值来自于要合成的表的标题&quot;,
-    &quot;标题3&quot;: &quot;$:重名标题1 * 重名标题2:&quot;,
+    &quot;标题3&quot;: &quot;$:重名标题1 * 重名标题2:4&quot;,
     .....
     }]
 </code></pre>
@@ -625,7 +625,7 @@ Prism.languages.yaml={scalar:{pattern:/([\-:]\s*(?:![^\s]+)?[ \t]*[|>])[ \t]*(?:
 
 <ul>
 <li>可以指定任意多个，形式为 &quot;标题1&quot; : &quot;值来自于要合成的表的标题&quot; ， 前面指明了标题，后面指明了数据来源于哪一列，此处 “值来自于要合成的表的标题” 可以为重命名的标题。</li>
-<li>如果值需要来自计算，则值的这部分内容格式为 &quot;符号:运算:&quot; ， 运算中使用的标题名需要是重名的标题名</li>
+<li>如果值需要来自计算，则值的这部分内容格式为 &quot;单位:运算:保留几位小数(默认为2位，如果不填的话)&quot; ， 运算中使用的标题名需要是重名的标题名</li>
 </ul>
 
 <h2 id="toc_11">指定规则文件</h2>

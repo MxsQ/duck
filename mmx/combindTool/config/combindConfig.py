@@ -6,6 +6,14 @@ from utils.caculator import Caculator
 
 class CombindConfig():
 
+    # 单位信息索引，在公式表中
+    UNIT_INDEX_ = 'unity'
+    # 公式信息索引，在公示表中
+    FORMULA_INDEX = 'fomala'
+    # 保留多少位小数信息索引, 在公式字典中，默认保留两位
+    RETAIN_INDEX = 'retain'
+
+
     # 过滤条件
     def createFilter(self, filters):
         print()
@@ -31,8 +39,15 @@ class CombindConfig():
             slot = self.outTableCuloumn[key].split(":")
             if len(slot) > 2:
             # 说明是算式
-                self.formulaDirt[key] = self.caculator.media2pre(self.caculator.transfroFormula(slot[1]))
-                self.columnSymbloDirt[key] = slot[0]
+                info = {}
+                info[self.UNIT_INDEX_] = slot[0]
+                info[self.FORMULA_INDEX] = self.caculator.media2pre(self.caculator.transfroFormula(slot[1]))
+                if slot[2].strip() == '':
+                    ## 默认单位
+                    info[self.RETAIN_INDEX] = 2
+                else:
+                    info[self.RETAIN_INDEX] = int(slot[2])
+                self.formulaDirt[key] = info
 
 
     # 重命名的column
@@ -76,7 +91,7 @@ class CombindConfig():
     def getFormulaResult(self, headerRow, nextRow, outCoulnName, tableColumnNameDir):
         if outCoulnName in self.formulaDirt is False:
             return "null"
-        formulaRule = self.formulaDirt[outCoulnName]
+        formulaRule = self.formulaDirt[outCoulnName][self.FORMULA_INDEX]
         # 替换其中的值
         index = 0
         size = len(formulaRule)
@@ -100,8 +115,8 @@ class CombindConfig():
             else:
                 factors.append(f)
             index = index + 1
-        
-        return self.columnSymbloDirt[outCoulnName] + str(self.caculator.workByPre(factors))  
+        retain = self.formulaDirt[outCoulnName][self.RETAIN_INDEX]
+        return self.formulaDirt[outCoulnName][self.UNIT_INDEX_] + str(self.caculator.workByPre(factors, retain))  
                 
 
     def __init__(self, configFile):
@@ -132,14 +147,10 @@ class CombindConfig():
         print("重命名信息:")
         print(self.renameDirt)
         print()
-        # 新表中哪些栏来自于计算
+        # 新表中哪些栏来自于计算，包含单位、算式、保留位信息
         self.formulaDirt = {}
-        # 新表的单元格的符号，如果来自于公式的话
-        self.columnSymbloDirt = {}
         # 处理运算的辅助器
         self.caculator = Caculator()
-        # 记录新表中哪些栏来源于计算
-        self.caculateFormatDict = {}
         self.transferFormula()
         print("算式:")
         print(self.formulaDirt)

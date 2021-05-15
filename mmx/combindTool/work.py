@@ -3,7 +3,6 @@ import pandas as pd
 import utils.fileUtils as fus
 import utils.format as fm
 from config.combindConfig import CombindConfig as Config
-import datetime
 import traceback
 import os
 import sys
@@ -140,9 +139,6 @@ if __name__ == '__main__':
         work()
     except Exception as e:
         print(traceback.format_exc())
-        # now_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        # errorPath = fus.getWorkDirPath() + fus.sperator() + "error" + fus.sperator() + now_time
-        # errorFile = open(errorPath + ".txt", mode='w')
-        # errorFile.write(traceback.format_exc())
+
             
         

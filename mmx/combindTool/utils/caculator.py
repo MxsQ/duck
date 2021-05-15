@@ -146,7 +146,7 @@ class Caculator():
 
         return newRule
 
-    def operater(self, obj1, obj2, symble):
+    def operater(self, obj1, obj2, symble, retain):
         a = float(obj1)
         b = float(obj2)
         if symble == '+':
@@ -154,13 +154,13 @@ class Caculator():
         if symble == '-':
             return a - b
         if symble == '*':
-            return round(a * b, 2)
+            return round(a * b, retain)
         if symble == '/':
-            return rount(a / b, 2)
+            return round(a / b, retain)
         
 
     # 前缀表达式计算
-    def workByPre(self, factors):
+    def workByPre(self, factors, retain):
         tmpStack = Stack()
         # print("???", factors)
         while len(factors) > 0:
@@ -168,7 +168,7 @@ class Caculator():
             if self.isFormulaSamble(f) is False:
                 tmpStack.push(f)
             else:
-                tmpStack.push(self.operater(tmpStack.pop(), tmpStack.pop(), f))
+                tmpStack.push(self.operater(tmpStack.pop(), tmpStack.pop(), f, retain))
         return tmpStack.pop()
 
 

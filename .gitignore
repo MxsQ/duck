@@ -6,3 +6,9 @@ hw/data/*.xlsx
 mmx/data/*.csv
 mmx/data/*.xlsx
 mmx/data/out/*
+mmx/data/runtime/
+*.zip
+*.rar
+mmx/data/config/*
+mmx/data/config/!index.json
+mmx/data/config/!tamplate.json
