@@ -3,6 +3,10 @@ import pandas as pd
 import utils.fileUtils as fus
 import utils.format as fm
 from config.combindConfig import CombindConfig as Config
+import datetime
+import traceback
+import os
+import sys
 
 # 确定table位置
 def inTable(targetColumn, columnDirt):
@@ -24,8 +28,32 @@ def tableColumnsMap(tableNames, tables):
         index = index + 1
     return columnNameDict
 
+# 输出print到指定文件
+def tryWritePrintToFile():
+    json = fus.getIndexFileJson()
+    isWriteToFile = json['debug']
+    if isWriteToFile:
+        outputFile = fus.getWorkDirPath() + fus.sperator() + "runtime" + fus.sperator() + "error.txt"
+        if os.path.exists(outputFile):
+            os.remove(outputFile)
+        class Logger(object):
+            def __init__(self, filename="info.log"):
+                self.terminal = sys.stdout
+                self.log = open(filename, "a")
 
-if __name__ == '__main__':
+            def write(self, message):
+                self.terminal.write(message)
+                self.log.write(message)
+
+            def flush(self):
+                pass
+        path = os.path.abspath(os.path.dirname(__file__))
+        type = sys.getfilesystemencoding()
+        sys.stdout = Logger(outputFile)
+        
+
+
+def work():
     ruleFiles = fus.getWorkFiles()
     print("所有合并规则文件：")
 
@@ -102,7 +130,19 @@ if __name__ == '__main__':
         print(putDataFrame)
         print("\n")
         fus.outExcel(putDataFrame, config.outputTableName)  
-            # for column
-        
+
+
+if __name__ == '__main__':
+   
+    
+    try:
+        tryWritePrintToFile()
+        work()
+    except Exception as e:
+        print(traceback.format_exc())
+        # now_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # errorPath = fus.getWorkDirPath() + fus.sperator() + "error" + fus.sperator() + now_time
+        # errorFile = open(errorPath + ".txt", mode='w')
+        # errorFile.write(traceback.format_exc())
             
         

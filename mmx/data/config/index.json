@@ -1,5 +1,6 @@
 {
     "ruleFiles" :[
         "template.json"
-    ]
+    ],
+    "debug": false
 }

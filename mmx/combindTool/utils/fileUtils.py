@@ -50,6 +50,11 @@ def getWorkFiles():
 
     return filePaths
 
+def getIndexFileJson():
+    indexFilePath = workDirPath + sperator() + "config" + sperator() + "index.json"
+    f = open(indexFilePath, "rb")
+    return json.load(f, strict=False)
+
 # 获取配置文件json
 def getRulesJson(filePath):
     f = open(filePath, "rb")
