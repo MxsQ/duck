@@ -36,6 +36,16 @@ isWindos = os.name.strip() == 'nt'
 tSperator = os.sep
 workDirPath = getWorkDirPath()
 
+def getFileName(filePath):
+    fileName = filePath
+    if sperator() in filePath:
+        pathItems = filePath.split(sperator())
+        fileName = pathItems[len(pathItems) - 1]
+    
+    if "." in fileName:
+        return fileName.split('.')[0]
+
+
 
 # 所有配置文件
 def getWorkFiles():

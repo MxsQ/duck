@@ -132,7 +132,7 @@ class CombindConfig():
         excelName = jsonObject['excel']
         # 所有表名
         self.excelFullName = excelName
-        self.excelName = list(map(lambda fileName: fileName.split('.')[0], excelName))
+        self.excelName = list(map(lambda fileName: fus.getFileName(fileName), excelName))
         print("excel名: ")
         print(excelName)
         

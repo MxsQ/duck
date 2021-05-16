@@ -3,6 +3,7 @@
 /data/conversionStatements.xlsx
 hw/data/*.csv
 hw/data/*.xlsx
+*/__pycache__
 mmx/data/*.csv
 mmx/data/*.xlsx
 mmx/data/out/*
