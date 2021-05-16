@@ -38,7 +38,7 @@ def tryWritePrintToFile():
         class Logger(object):
             def __init__(self, filename="info.log"):
                 self.terminal = sys.stdout
-                self.log = open(filename, "a")
+                self.log = open(filename, "a", encoding="utf-8")
 
             def write(self, message):
                 self.terminal.write(message)
