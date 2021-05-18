@@ -1,6 +1,6 @@
 {
     "ruleFiles" :[
-        "a.json"
+        "kbc.json"
     ],
     "debug": false
 }

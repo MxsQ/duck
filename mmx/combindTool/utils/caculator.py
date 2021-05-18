@@ -163,13 +163,17 @@ class Caculator():
     def workByPre(self, factors, retain):
         tmpStack = Stack()
         # print("???", factors)
-        while len(factors) > 0:
-            f = factors.pop()
-            if self.isFormulaSamble(f) is False:
-                tmpStack.push(f)
-            else:
-                tmpStack.push(self.operater(tmpStack.pop(), tmpStack.pop(), f, retain))
-        return tmpStack.pop()
+        try:
+            while len(factors) > 0:
+                f = factors.pop()
+                if self.isFormulaSamble(f) is False:
+                    tmpStack.push(f)
+                else:
+                    tmpStack.push(self.operater(tmpStack.pop(), tmpStack.pop(), f, retain))
+            return tmpStack.pop()
+        except ZeroDivisionError :
+            
+            return "零除错误"
 
 
     def __init__(self):
